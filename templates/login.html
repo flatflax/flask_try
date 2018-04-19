@@ -32,7 +32,7 @@
             </div>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#">Manage <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('manage') }}">Manage <span class="sr-only">(current)</span></a>
           </li>
           {% endif %}
         </ul>
@@ -49,7 +49,7 @@
 
 <!-- the main container of the body-->
   <main class="container" role="main">
-    <h1 class="mt-5">Sentiment Analysis and Text Mining of Social Media Comments</h1>
+    <h1 class="mt-5">Nothing for Flax</h1>
     <br><br>
     {% for message in get_flashed_messages() %}
       <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>

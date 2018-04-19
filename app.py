@@ -1,7 +1,9 @@
+# -*- coding: UTF-8 -*- 
 # imports
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 import os
 
 
@@ -66,6 +68,7 @@ def logout():
 
 @app.route('/dashboard/<post_id>', methods=['GET','POST'])
 def show_dashboard(post_id):
+    """Show iframe"""
     if request.method == 'GET':
         if not session.get('logged_in'):
             flash('Please login first.')
@@ -76,6 +79,82 @@ def show_dashboard(post_id):
             if dashboard is None:
                 abort(404)
             return render_template('dashboard.html', dashboard=dashboard, entries=entries)
+
+
+@app.route('/manage')
+def manage():
+    """User manage link of iframe"""
+    if not session.get('logged_in'):
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    elif session['logged_in'] == True:
+        entries = models.Dashboard.query.all()
+        return render_template('manage.html', entries=entries)
+
+
+@app.route('/id/<post_id>', methods=['POST','DELETE'])
+def link_post_id(post_id):
+    """
+    POST : Add new link
+    PUT : Modify existed link
+    GET : Get more info the link
+    DELETE : Delete the link
+    """
+    from models import db
+    if request.method == 'POST':
+        if request.form["_method"] == 'DELETE':
+            d = models.Dashboard.query.filter_by(post_id=post_id).first_or_404()
+            db.session.delete(d)
+            db.session.commit()
+            flash('Delete Success.')
+            return redirect(url_for('manage'))
+        if request.form["_method"] == 'PUT':
+            d = models.Dashboard.query.filter_by(post_id=post_id).first_or_404()
+            d.title = request.form["title"]
+            d.url = request.form["url"]
+            db.session.add(d)
+            db.session.commit()
+            flash('Update Success.')
+            return redirect(url_for('manage'))
+        else :
+            d = models.Dashboard(title=request.form["title"], url=request.form["url"])
+            db.session.add(d)
+            db.session.commit()
+            flash('Add Success.')
+            return redirect(url_for('manage'))
+    if request.method == 'PUT':
+        entry = models.Dashboard.query.filter_by(post_id=post_id).first().update(title=request.form["title"],url=request.form["url"])
+        flash('Update Success.')
+        return redirect(url_for('manage'))
+
+
+@app.route('/manage/update/<post_id>')
+def manage_update(post_id):
+    if not session.get('logged_in'):
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    elif session['logged_in'] == True:
+        entry = models.Dashboard.query.filter_by(post_id=post_id).first()
+        # set key:Update
+        key = {}
+        key['value'] = 'Update'
+        key['method'] = 'PUT'
+        return render_template('linkinfo.html', entry=entry, key=key)
+
+
+@app.route('/manage/add')
+def manage_add():
+    if not session.get('logged_in'):
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    elif session['logged_in'] == True:
+        # create new blank entry
+        entry = models.Dashboard(title='',url='')
+        # set key:Add
+        key = {}
+        key['value'] = 'Add'
+        key['method'] = 'POST'
+        return render_template('linkinfo.html', key=key, entry=entry)
 
 
 if __name__ == '__main__':
