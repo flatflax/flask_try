@@ -12,7 +12,7 @@ from models import db,Dashboard
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
-# configuration
+# configurationb
 DATABASE = 'dashboard.db'
 DEBUG = True
 SECRET_KEY = 'my_precious'

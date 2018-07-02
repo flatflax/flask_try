@@ -10,4 +10,19 @@
         <iframe src={{ dashboard.url }} class="iframe-dashboard" frameborder="0" onload="changeFrameHeight()" frameborder="0" id="iframe-dashboard">Sorry!Iframe is not supported by your browser.</iframe>
        </div>
      </div>
+
+  <script type="text/javascript">
+function changeFrameHeight(){
+    var ifm= document.getElementById("iframe-dashboard"); 
+    if(ifm){
+      ifm.height=document.documentElement.clientHeight * 0.7;
+      ifm.width=document.documentElement.clientWidth*0.6;
+  }
+}
+
+window.onresize=function(){  
+      changeFrameHeight();  
+
+} 
+</script>
 {% endblock %}
