@@ -1,5 +1,4 @@
-from app import db
-
+from exts import db
 
 class Dashboard(db.Model):
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block container %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom mt-5">
+            <h1 class="h2">Link Management</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <a href="/manage/add">
+                  <button class="btn btn-sm btn-outline-secondary">Add</button>
+                </a>
+              </div>
+            </div>
+          </div>
+    <br>
+    {% for message in get_flashed_messages() %}
+      <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
+    {% endfor %}
+    <div class="entries table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Modify</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in entries %}
+          <tr class="entry">
+            <td>{{ entry.post_id }}</td>
+            <td>{{ entry.title }}</td>
+            <td><a href="/manage/update/{{ entry.post_id }}"><button class="btn btn-sm btn-outline-secondary">Modify</button></a></td>
+            <td><form action="/manage/id/{{ entry.post_id }}" method='POST'><input class="btn btn-sm btn-outline-secondary" type="submit" value="Delete">
+            <input type="hidden" name="_method" value="DELETE"></form></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  
+{% endblock %}
