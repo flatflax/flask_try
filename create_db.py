@@ -1,8 +1,6 @@
 # create_db.py
 
-
-from app import db
-from models import Dashboard
+from models import db,Dashboard
 
 '''
 # create the database and the db table

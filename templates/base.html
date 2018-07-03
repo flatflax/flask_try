@@ -8,7 +8,7 @@
 <!-- the navbar of the body-->
   <header>
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Flax</a>
+      <a class="navbar-brand" href="{{ url_for('admin.index') }}">Flax</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -16,33 +16,26 @@
         <ul class="navbar-nav mr-auto">
           {% if not session.logged_in %}
           <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('admin.index') }}">Home <span class="sr-only">(current)</span></a>
           </li>
           {% else %}
-          <li class="nav-item dropdown active">
-            <a class="nav-link dropdown-toggle" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Link</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown03">
-              <div class="entries">
-              {% for entry in entries%}
-                <div class="entry">
-                <a class="dropdown-item" href="/dashboard/{{ entry.post_id }}" id={{ entry.post_id }}>{{ entry.title }}</a></div>
-              {% else %}
-                <a href="#">no title</a>
-              {% endfor %}
-              </div>
-            </div>
-          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('admin.manage') }}">Manage <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ url_for('manage.manage') }}">Manage <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Template <span class="sr-only">(current)</span></a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="{{ url_for('short.getShortLink') }}">Short</a>
+            </div>
           </li>
           {% endif %}
         </ul>
       </div>
 
       {% if not session.logged_in %}
-      <a class="btn btn-success" role="button" href="{{ url_for('login') }}">LogIn</a>
+      <a class="btn btn-success" role="button" href="{{ url_for('admin.login') }}">LogIn</a>
       {% else %}
-      <a class="btn btn-warning" role="button" href="{{ url_for('logout') }}">LogOut</a>
+      <a class="btn btn-warning" role="button" href="{{ url_for('admin.logout') }}">LogOut</a>
       {% endif %}
     </nav>
   </header>

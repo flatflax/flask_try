@@ -1,0 +1,26 @@
+{% extends './base.html' %}
+{% block container %}
+    <h1 class="mt-5">Get Short Link</h1>
+    <br><br>
+    {% for message in get_flashed_messages() %}
+      <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
+    {% endfor %}
+    {% if key %}
+    <div class="entry">
+    <form action="{{ url_for('short.ShortLink',link_id=key.link_id) }}" method="POST" class="form-group">
+      <div class="mb-3">
+        <label for="title">LongLink</label>
+        <input type="text" class="form-control" name="title" value="{{ key.longlink }}">
+      </div>
+      <div class="mb-3">
+        <label for="url">ShortLink</label>
+        <input type="text" class="form-control" name="url" value="{{ key.shortlink }}">
+      </div>
+        <br><br>
+        <dd><input class="btn btn-primary btn-lg btn-block" type='submit' value="{{ key['value'] }}"></dd>
+        <dd><input type="hidden" name="_method" value="{{ key['method'] }}"></dd>
+        <dl>
+    </form>
+    </div>
+    {% endif %}
+{% endblock %}
