@@ -1,0 +1,22 @@
+{% extends "./base.html" %}
+{% block container %}
+    <h1 class="mt-5">Nothing for Flax</h1>
+    <br><br>
+    {% for message in get_flashed_messages() %}
+      <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
+    {% endfor %}
+    <h3>Login</h3>
+    {% if error %}<p class="alert alert-danger col-sm-4" role="danger"><strong>Error:</strong> {{ error }}{% endif %}</p>
+    <form action="{{ url_for('auth.login') }}" method="post" class="form-group">
+      <dl>
+        <dt>Username:</dt>
+        <dd><input type="text" name="username" class="form-control col-sm-4"></dd>
+        <dt>Password:</dt>
+        <dd><input type="password" name="password" class="form-control col-sm-4"></dd>
+        <br><br>
+        <dd><input type="submit" class="btn btn-primary" value="Login"></dd>
+        <span>Have not register?Click </span><a href="{{ url_for('auth.register') }}">here</a>
+      </dl>
+    </form>
+
+{% endblock %}

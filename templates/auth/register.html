@@ -5,17 +5,18 @@
     {% for message in get_flashed_messages() %}
       <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
     {% endfor %}
-    <h3>Login</h3>
+    <h3>Register</h3>
     {% if error %}<p class="alert alert-danger col-sm-4" role="danger"><strong>Error:</strong> {{ error }}{% endif %}</p>
-    <form action="{{ url_for('admin.login') }}" method="post" class="form-group">
+    <form action="{{ url_for('auth.register') }}" method="post" class="form-group">
       <dl>
         <dt>Username:</dt>
-        <dd><input type="text" name="username" class="form-control col-sm-4"></dd>
+        <dd><input type="text" name="username" class="form-control col-sm-4">{{ user.username }}</dd>
         <dt>Password:</dt>
         <dd><input type="password" name="password" class="form-control col-sm-4"></dd>
+        <dt>Email:</dt>
+        <dd><input type="text" name="email" class="form-control col-sm-4">{{ user.email }}</dd>
         <br><br>
-        <dd><input type="submit" class="btn btn-primary" value="Login"></dd>
-        <span>* Use "admin" for username and password</span>
+        <dd><input type="submit" class="btn btn-primary" value="Register"></dd>
       </dl>
     </form>
 

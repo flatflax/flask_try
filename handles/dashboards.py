@@ -3,7 +3,7 @@ from flask import g, request, flash, current_app, session
 from flask import render_template, redirect, url_for
 from models import Dashboard
 
-bp = Blueprint('dashboard', __name__)
+bp = Blueprint('dashboards', __name__)
 
 @bp.route('/<post_id>', methods=['GET','POST'])
 def show(post_id):
@@ -16,4 +16,4 @@ def show(post_id):
             dashboard = Dashboard.query.filter_by(post_id=post_id).first()
             if dashboard is None:
                 abort(404)
-            return render_template('dashboard/dashboard.html', dashboard=dashboard)
+            return render_template('dashboards/dashboard.html', dashboard=dashboard)

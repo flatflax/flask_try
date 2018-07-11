@@ -28,7 +28,7 @@
           {% for entry in entries %}
           <tr class="entry">
             <td>{{ entry.post_id }}</td>
-            <td><a href="{{ url_for('dashboard.show',post_id=entry.post_id) }}">{{ entry.title }}</a></td>
+            <td><a href="{{ url_for('dashboards.show',post_id=entry.post_id) }}">{{ entry.title }}</a></td>
             <td><a href="{{ url_for('manage.manage_update',post_id=entry.post_id) }}"><button class="btn btn-sm btn-outline-secondary">Modify</button></a></td>
             <td><form action="{{ url_for('manage.link_post_id',post_id=entry.post_id) }}" method='POST'><input class="btn btn-sm btn-outline-secondary" type="submit" value="Delete">
             <input type="hidden" name="_method" value="DELETE"></form></td>
