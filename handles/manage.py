@@ -2,47 +2,44 @@ from flask import Blueprint
 from flask import g, request, flash, current_app, session
 from flask import render_template, redirect, url_for
 from models import Dashboard
+from utils.users import login_required,admin_required
 
 bp = Blueprint('manage', __name__)
 
 @bp.route('/update/<post_id>')
+@login_required
+@admin_required
 def manage_update(post_id):
-    if not session.get('logged_in'):
-        flash('Please login first.')
-        return redirect(url_for('login'))
-    elif session['logged_in'] == True:
-        entry = Dashboard.query.filter_by(post_id=post_id).first()
-        # set key:Update
-        key = {}
-        key['value'] = 'Update'
-        key['method'] = 'PUT'
-        return render_template('/manage/linkinfo.html', entry=entry, key=key)
+    entry = Dashboard.query.filter_by(post_id=post_id).first()
+    # set key:Update
+    key = {}
+    key['value'] = 'Update'
+    key['method'] = 'PUT'
+    return render_template('/manage/linkinfo.html', entry=entry, key=key)
 
 @bp.route('/add')
+@login_required
+@admin_required
 def manage_add():
-    if not session.get('logged_in'):
-        flash('Please login first.')
-        return redirect(url_for('login'))
-    elif session['logged_in'] == True:
-        # create new blank entry
-        entry = Dashboard(title='',url='')
-        # set key:Add
-        key = {}
-        key['value'] = 'Add'
-        key['method'] = 'POST'
-        return render_template('/manage/linkinfo.html', key=key, entry=entry)
+    # create new blank entry
+    entry = Dashboard(title='',url='')
+    # set key:Add
+    key = {}
+    key['value'] = 'Add'
+    key['method'] = 'POST'
+    return render_template('/manage/linkinfo.html', key=key, entry=entry)
 
 @bp.route('/')
+@login_required
+@admin_required
 def manage():
     """User manage link of iframe"""
-    if not session.get('logged_in'):
-        flash('Please login first.')
-        return redirect(url_for('login'))
-    elif session['logged_in'] == True:
-        entries = Dashboard.query.all()
-        return render_template('/manage/manage.html', entries=entries)
+    entries = Dashboard.query.all()
+    return render_template('/manage/manage.html', entries=entries)
 
 @bp.route('/id/<post_id>', methods=['POST','DELETE'])
+@login_required
+@admin_required
 def link_post_id(post_id):
     """
     POST : Add new link

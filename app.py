@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*- 
 # imports
-from flask import Flask, request, session, g, redirect, \
-     abort, flash, jsonify
+from flask import Flask, session, g
 from sqlalchemy.sql import func
 import os
 import redis
@@ -47,11 +46,13 @@ admin = Admin(app, name='apps', template_mode='bootstrap3')
 admin.add_view(BaseModelview(User, db.session,name=u'用户管理'))
 admin.add_view(BaseModelview(Dashboard, db.session, name=u'标签管理'))
 
-from handles import manage,auth,short,dashboards
+from handles import manage,auth,short,dashboards,test,submit
 app.register_blueprint(manage.bp, url_prefix='/manage')
 app.register_blueprint(auth.bp, url_prefix='/')
 app.register_blueprint(short.bp, url_prefix='/short')
 app.register_blueprint(dashboards.bp, url_prefix='/dashboards')
+app.register_blueprint(test.bp, url_prefix='/test')
+app.register_blueprint(submit.bp, url_prefix='/submit')
 
 
 

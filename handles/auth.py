@@ -19,6 +19,7 @@ def login():
             error = 'Invalid password'
         else:
             session['logged_in'] = True
+            session['right'] = user.right
             session['username'] = username
             flash('You were logged in')
             return redirect(url_for('auth.index'))
@@ -41,19 +42,29 @@ def index():
 
 @bp.route('register/', methods=['POST','GET'])
 def register():
-    if request.method == 'POST':
+    if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-        user = User(username=username,password=password,email=email)
+        user = User(username=username,password=password,email=email,right=1)
+        
+        # if fliter error, return to register page
+        fliter_result = register_fliter(user)
+        if fliter_result:
+            flash(fliter_result)
+            entries = Dashboard.query.all()
+            user = User(username='',password='',email='',right=1)
+            return render_template('auth/register.html', entries=entries, user=user)
+
         db.session.add(user)
         db.session.commit()
         flash('You have register success.Please login.')
         return redirect(url_for('auth.index'))
     entries = Dashboard.query.all()
-    user = User(username='',password='',email='')
+    user = User(username='',password='',email='',right=1)
     return render_template('auth/register.html', entries=entries, user=user)
 
 def register_fliter(user):
-    # 用户名是否重复
-    pass
+    if User.query.filter_by(username=user.username).first():
+        return "The username has been existed."
+    return ""

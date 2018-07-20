@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+{% block container %}
+<!--set SCRIPT_ROOT-->
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $PATH = {{ request.path|tojson|safe }};
+  </script>
+
+<!--test postJSON -->
+  <script type="text/javascript">
+    $(function() {
+      $("a#calculate").click(function(){
+
+          var data = {
+              'a': $('input[name="a"]').val(),
+              'b': $('input[name="b"]').val()
+            }
+
+          $.ajax({
+            type: 'post',
+            url: $SCRIPT_ROOT + $PATH + '_add_numbers', 
+            data: JSON.stringify(data), 
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            success: function(data) {
+              $("#result").html(data);
+            },
+            error: function(xhr, type){}
+        });
+        return false;
+        });
+    });
+  </script>
+
+
+
+  <h1>Example</h1>
+  <p><input type=text size=5 name=a> +
+     <input type=text size=5 name=b> =
+     <span id=result>?</span>
+  <p><a href=# id=calculate>calculate</a>
+  <!--<p><a id=example>click it</a> -->
+
+{% endblock %}
