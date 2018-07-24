@@ -8,8 +8,8 @@ bp = Blueprint('test', __name__)
 @bp.route('/_add_numbers', methods=['POST','GET','DELETE'])
 def add_numbers():
 	data = request.get_json()
-	result = int(data['a'])+int(data['b'])
-	return jsonify(result)
+	result = int(data['a']) + int(data['b'])
+	return jsonify({"result":result})
 
 @bp.route('/')
 def index():

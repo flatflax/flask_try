@@ -10,11 +10,10 @@
   <script type="text/javascript">
     $(function() {
       $("a#calculate").click(function(){
-
           var data = {
               'a': $('input[name="a"]').val(),
               'b': $('input[name="b"]').val()
-            }
+            };
 
           $.ajax({
             type: 'post',
@@ -23,7 +22,7 @@
             contentType: 'application/json; charset=UTF-8',
             dataType: 'json',
             success: function(data) {
-              $("#result").html(data);
+              $("#result").html(data['result']);
             },
             error: function(xhr, type){}
         });

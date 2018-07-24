@@ -19,3 +19,4 @@ Having deployed using uWSGI+Nginx, but have little know about their config files
 * the short link module
 * connected with Elastic Stack?
 * submit&confirm module
+* I want a product designer to help me escape from the pdd. :(
