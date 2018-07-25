@@ -1,0 +1,57 @@
+{% extends "./base.html" %}
+{% block container %}
+    <h1 class="mt-5">{{ key|capitalize }} the Blog</h1>
+    <br><br>
+    {% for message in get_flashed_messages() %}
+      <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
+    {% endfor %}
+    {% if key %}
+    <div class="submission">
+    <form action="#" class="form-group">
+      <div class="mb-3">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" name="title" value="{{ submission.title }}" placeholder="Your title...">
+      </div>
+      <div class="mb-3">
+        <label for="content">Content</label>
+        <textarea type="text" class="form-control" name="content" value="{{ submission.content }}" rows="13" placeholder="Write something here..."></textarea>
+      </div>
+        <br><br>
+        <dd><span type='submit' class="btn btn-secondary btn-lg btn-block" id="submit">{{ key|capitalize }}</span></dd>
+      </dl>
+    </form>
+    </div>
+    {% endif %}
+
+    <!--set SCRIPT_ROOT-->
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    $PATH = {{ request.path|tojson|safe }};
+  </script>
+
+  <!--test postJSON -->
+  <script type="text/javascript">
+    $(function() {
+      $("span#submit").click(function(){
+          var data = {
+              'suber_id': '{{ submission.suber_id }}',
+              'title': $('input[name="title"]').val(),
+              'content': $('textarea[name="content"]').val()
+            };
+          $.ajax({
+            type: 'post',
+            url: '{{ url_for("blog.blog",blog_id=1) }}',
+            data: JSON.stringify(data), 
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            success: function(data) {
+              //$("#result").html(data['result']);
+              window.location.href = '{{ url_for("auth.index") }}';
+            },
+            error: function(xhr, type){alert('error')}
+        });
+        return false;
+        });
+    });
+  </script>
+{% endblock %}

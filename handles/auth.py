@@ -21,6 +21,7 @@ def login():
             session['logged_in'] = True
             session['right'] = user.right
             session['username'] = username
+            session['user_id'] = user.userid
             flash('You were logged in')
             return redirect(url_for('auth.index'))
     return render_template('/auth/login.html', error=error)
@@ -31,6 +32,7 @@ def logout():
     """User logout/authentication/session management."""
     session.pop('logged_in', None)
     session.pop('username', None)
+    session.pop('user_id', None)
     flash('You were logged out')
     return redirect(url_for('auth.index'))
 

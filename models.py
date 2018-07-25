@@ -52,15 +52,17 @@ class Submission(db.Model):
     sub_id = db.Column(db.Integer, primary_key=True)
     suber_id = db.Column(db.Integer, nullable = False)
     auder_id = db.Column(db.Integer)
-    sub_time = db.Column(db.Time, nullable = False)
-    aud_time = db.Column(db.Time, nullable = False)
+    sub_time = db.Column(db.String, nullable = False)
+    aud_time = db.Column(db.String, nullable = False)
     title = db.Column(db.String, nullable=False)
     content = db.Column(db.String, nullable=False)
     status = db.Column(db.Integer, nullable = False)
 
     def __init__(self, suber_id, sub_time, title, content, status):
-        self.sub_id = sub_id
+        self.suber_id = suber_id
         self.sub_time = sub_time
+        self.auder_id = 0
+        self.aud_time = ''
         self.title = title
         self.content = content
         self.status = status
