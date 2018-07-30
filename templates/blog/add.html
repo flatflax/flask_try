@@ -46,7 +46,8 @@
             dataType: 'json',
             success: function(data) {
               //$("#result").html(data['result']);
-              window.location.href = '{{ url_for("auth.index") }}';
+              alert("Submit success.")
+              window.location.href = '{{ url_for("blog.blog_main") }}';
             },
             error: function(xhr, type){alert('error')}
         });

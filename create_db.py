@@ -7,6 +7,7 @@ import time
 app = create_app()
 db.init_app(app)
 with app.app_context():
+    '''
     # create the database and the db table
     db.drop_all()
     db.create_all()
@@ -30,11 +31,10 @@ with app.app_context():
 
     # commit the changes
     db.session.commit()
-'''
+    '''
 
-# create the database and the db table
-db.create_all()
+    # create the database and the db table
+    db.create_all()
 
-# commit the changes
-db.session.commit()
-'''
+    # commit the changes
+    db.session.commit()

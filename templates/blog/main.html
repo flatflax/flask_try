@@ -1,0 +1,63 @@
+{% extends "./base.html" %}
+{% block container %}
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom mt-5">
+            <h1 class="h2">Blog Management</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <a href="{{ url_for('blog.blog_add') }}">
+                  <button class="btn btn-sm btn-outline-secondary">Add</button>
+                </a>
+              </div>
+            </div>
+          </div>
+    <br>
+	{% for message in get_flashed_messages() %}
+      <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
+    {% endfor %}
+    <div class="entries table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Modify</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in entries %}
+          <tr class="entry">
+            <td>{{ entry.suber_id }}</td>
+            <td><a href="{{ url_for('blog.blog',blog_id=entry.sub_id) }}">{{ entry.title }}</a></td>
+            <td><a href="{{ url_for('blog.blog',blog_id=entry.sub_id) }}"><button class="btn btn-sm btn-outline-secondary">Modify</button></a></td>
+            <td><button class="btn btn-sm btn-outline-secondary" id='delete_{{ entry.sub_id }}'>Delete</button></td>
+          </tr>
+              <!--deleteJSON -->
+			  <script type="text/javascript">
+			    $(function() {
+			      $("button#delete_{{ entry.sub_id }}").click(function(){
+			      	  var sub_id = {{ entry.sub_id }};
+			          var data = {
+			              'blog_id': sub_id
+			            };
+			          $.ajax({
+			            type: 'delete',
+			            url: '{{ url_for("blog.blog",blog_id=entry.sub_id) }}',
+			            data: JSON.stringify(data), 
+			            contentType: 'application/json; charset=UTF-8',
+			            dataType: 'json',
+			            success: function(data) {
+			              alert('Delete success.')
+			              window.location.href = '{{ url_for("blog.blog_main") }}';
+			            },
+			            error: function(xhr, type){alert('Delete error')}
+			        });
+			        return false;
+			        });
+			    });
+			  </script>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}
