@@ -83,7 +83,6 @@ def blog(blog_id):
         db.session.commit()
 
         session['blog_num'] = Submission.query.filter_by(suber_id=session['user_id']).count()
-
         return jsonify({'result':'success'})
 
 @bp.route('/main')
@@ -91,8 +90,8 @@ def blog(blog_id):
 def blog_main():
     user = User.query.filter_by(userid=session['user_id']).first_or_404()
     if user.right == 1:
-        entries = db.session.query(Submission, User.username).join(User, Submission.suber_id==User.userid).filter(status==0).all()
+        entries = db.session.query(Submission.title, Submission.sub_id, User.username).join(User, Submission.suber_id==User.userid).filter(Submission.status==0).all()
     else:
-        entries = db.session.query(Submission, User.username).join(User, Submission.suber_id==User.userid).filter(Submission.suber_id==session['user_id']).all()
+        entries = db.session.query(Submission.title, Submission.sub_id, User.username).join(User, Submission.suber_id==User.userid).filter(Submission.suber_id==session['user_id']).all()
         #entries = Submission.query.filter_by(suber_id=session['user_id']).all()
     return render_template('/blog/main.html',entries=entries)

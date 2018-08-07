@@ -6,17 +6,18 @@
     {% endfor %}
     <div class="dashboard">
       <h3>{{ dashboard.title }}</h3>
-      <div class="div-dashboard">
+      <div class="div-dashboard" id="div-dashboard">
         <iframe src={{ dashboard.url }} class="iframe-dashboard" frameborder="0" onload="changeFrameHeight()" frameborder="0" id="iframe-dashboard">Sorry!Iframe is not supported by your browser.</iframe>
        </div>
      </div>
 
   <script type="text/javascript">
 function changeFrameHeight(){
-    var ifm= document.getElementById("iframe-dashboard"); 
+    var ifm = document.getElementById("iframe-dashboard");
+    var col = document.getElementsByClassName("col-md-8 order-md-1")[0];
     if(ifm){
-      ifm.height=document.documentElement.clientHeight * 0.7;
-      ifm.width=document.documentElement.clientWidth*0.6;
+      ifm.height = col.clientHeight * 1;
+      ifm.width = col.clientWidth * 0.8;
   }
 }
 
