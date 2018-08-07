@@ -1,4 +1,5 @@
 import os
+import redis
 
 
 # configurationb
@@ -19,3 +20,7 @@ DATABASE_PATH = os.path.join(basedir, DATABASE)
 # database config
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_CACKEND = 'redis://localhost:6379/0'

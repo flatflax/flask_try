@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*- 
 # imports
-from flask import Flask, session, g
-from sqlalchemy.sql import func
+from flask import Flask
 import os
 import redis
-from models import *
+from celery import Celery
+from models import db
 
 
 def create_app(config=None):
@@ -37,10 +37,15 @@ def register_blueprint(app):
 def register_logger(app):
 	pass
 
+def register_celery(app):
+    celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+
 
 if __name__ == '__main__':
     app = create_app()
     register_database(app)
     register_admin(app)
     register_blueprint(app)
+    # register_celery(app)
     app.run()

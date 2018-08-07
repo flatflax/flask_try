@@ -11,7 +11,7 @@
             </div>
           </div>
     <br>
-	{% for message in get_flashed_messages() %}
+	  {% for message in get_flashed_messages() %}
       <div class="flash alert alert-success col-sm-4" role="success">{{ message }}</div>
     {% endfor %}
     <div class="entries table-responsive">
@@ -27,7 +27,7 @@
         <tbody>
           {% for entry in entries %}
           <tr class="entry">
-            <td>{{ entry.suber_id }}</td>
+            <td>{{ entry.username }}</td>
             <td><a href="{{ url_for('blog.blog',blog_id=entry.sub_id) }}">{{ entry.title }}</a></td>
             <td><a href="{{ url_for('blog.blog',blog_id=entry.sub_id) }}"><button class="btn btn-sm btn-outline-secondary">Modify</button></a></td>
             <td><button class="btn btn-sm btn-outline-secondary" id='delete_{{ entry.sub_id }}'>Delete</button></td>

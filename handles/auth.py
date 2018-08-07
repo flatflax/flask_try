@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import g, request, flash, current_app, session
 from flask import render_template, redirect, url_for
-from models import db,Dashboard,User
+from models import db,Dashboard,User,Submission
 
 bp = Blueprint('auth', __name__)
 
@@ -22,6 +22,7 @@ def login():
             session['right'] = user.right
             session['username'] = username
             session['user_id'] = user.userid
+            session['blog_num'] = Submission.query.filter_by(suber_id=user.userid).count()
             flash('You were logged in')
             return redirect(url_for('auth.index'))
     return render_template('/auth/login.html', error=error)

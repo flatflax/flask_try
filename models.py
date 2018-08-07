@@ -29,7 +29,7 @@ class User(db.Model):
     user right
     0:admin
     1:common user
-    2:guess?
+    2:guest?
     '''
 
     def __init__(self, username, password, email, right):
@@ -48,6 +48,10 @@ class Submission(db.Model):
     '''
     submission
     audit
+
+    status:
+    0 not audit
+    1 has been audit
     '''
     sub_id = db.Column(db.Integer, primary_key=True)
     suber_id = db.Column(db.Integer, nullable = False)

@@ -7,6 +7,11 @@ import time
 
 bp = Blueprint('blog', __name__)
 
+@bp.route('/')
+def blog_index():
+    entries = Submission.query.filter_by(status=1).all()
+    return render_template('/blog/index.html', entries=entries)
+
 @bp.route('/add')
 @login_required
 def blog_add():
@@ -33,6 +38,8 @@ def blog(blog_id):
 
         db.session.add(submission)
         db.session.commit()
+
+        session['blog_num'] = Submission.query.filter_by(suber_id=session['user_id']).count()
 
         return jsonify({'result':'success'})
 
@@ -74,6 +81,9 @@ def blog(blog_id):
         submission = Submission.query.filter_by(sub_id=blog_id).first_or_404()
         db.session.delete(submission)
         db.session.commit()
+
+        session['blog_num'] = Submission.query.filter_by(suber_id=session['user_id']).count()
+
         return jsonify({'result':'success'})
 
 @bp.route('/main')
@@ -81,7 +91,8 @@ def blog(blog_id):
 def blog_main():
     user = User.query.filter_by(userid=session['user_id']).first_or_404()
     if user.right == 1:
-        entries = Submission.query.filter_by(status=0).all()
+        entries = db.session.query(Submission, User.username).join(User, Submission.suber_id==User.userid).filter(status==0).all()
     else:
-        entries = Submission.query.filter_by(suber_id=session['user_id']).all()
+        entries = db.session.query(Submission, User.username).join(User, Submission.suber_id==User.userid).filter(Submission.suber_id==session['user_id']).all()
+        #entries = Submission.query.filter_by(suber_id=session['user_id']).all()
     return render_template('/blog/main.html',entries=entries)
